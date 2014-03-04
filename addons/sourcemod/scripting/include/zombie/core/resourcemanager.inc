@@ -31,6 +31,54 @@
 
 #include <zombie/core/resourcemanager/resourceaccessors>
 
+/*____________________________________________________________________________*/
+
+/*
+
+RESOURCE MANAGER
+
+The resource manager is a common module that stores user defined entities and
+repositories. It's quite similar to a memory-database, but entities in the
+resource manager is accessed directly instead of through database queries.
+
+It supports references between entities and enables data to be stored in a
+organized and typesafe manner.
+
+Don't expect the resource manager to be super efficient due to run-time lookup
+of attributes and validation. Otherwise the performance depends on the
+implementation, but the goal to be good enough. It's recommended to cache data
+that's accessed frequently, such as in damage/bullet events, fast timers or
+other busy events.
+
+Feature modules will be responsible for declaring entity types and repositories.
+The resource manager may help with loading KeyValue files into repositories. If
+modules assign constraints it will also validate the data to ensure only valid
+data is written to the repositories.
+
+For live debugging purposes an inspector tool may be available, but this is
+optional and may not be implemented.
+
+
+TERMINOLOGY
+
+Entity:
+A simple data structure with named attributes of specific types; an object.
+
+Entity type:
+Meta data about an entity. Stores the actual attribute names, data types and
+constraints.
+
+Constraint:
+A validation rule applied to a single value. Constraints may be assigned to
+entity attributes to ensure data integrity.
+
+Repository:
+A collection of entities of a certain type.
+
+*/
+
+/*____________________________________________________________________________*/
+
 /**
  * Default number of cells reserved for key names.
  */
