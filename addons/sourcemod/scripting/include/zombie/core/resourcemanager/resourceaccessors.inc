@@ -303,7 +303,7 @@ native ZMEntityType:ZM_GetEntityReferenceType(
  * @error                   Invalid entity, attribute, or attribute type
  *                          mismatch.
  */
-native ZM_SetEntityReference(
+native ZM_SetEntityReferenceType(
         ZMEntity:entity,
         const String:attributeName[],
         ZMEntityType:value);
