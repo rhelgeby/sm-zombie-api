@@ -66,7 +66,7 @@ A simple data structure with named attributes of specific types; an object.
 
 Entity type:
 Meta data about an entity. Stores the actual attribute names, data types and
-constraints.
+constraints. Shared between entities of the same type.
 
 Constraint:
 A validation rule applied to a single value. Constraints may be assigned to
