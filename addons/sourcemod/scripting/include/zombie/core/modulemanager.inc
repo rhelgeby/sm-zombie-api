@@ -102,6 +102,18 @@ native ZMModule:ZM_GetModuleByPlugin(Handle:plugin);
 /*____________________________________________________________________________*/
 
 /**
+ * Gets the plugin that created the specified module.
+ *
+ * @param module        Module to look up.
+ *
+ * @return              Handle to owner plugin, or INVALID_ZM_MODULE if not
+ *                      found.
+ */
+native Handle:ZM_GetModuleOwner(ZMModule:module);
+
+/*____________________________________________________________________________*/
+
+/**
  * Looks up a module by the specified name.
  *
  * @param name          Name to search for.
