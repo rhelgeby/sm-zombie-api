@@ -78,7 +78,10 @@ enum ZMFeature
 /*____________________________________________________________________________*/
 
 /**
- * Creates a new module. A plugin is only allowed to create one module.
+ * Creates a new module. The new module is bound to the calling plugin.
+ *
+ * Note: A plugin is only allowed to create one module. The module will remain
+ *       registered until the plugin is unloaded.
  *
  * @param name          Unique module name. Used by lookup functions.
  *
@@ -93,7 +96,7 @@ native ZMModule:ZM_CreateModule(const String:name[]);
 /**
  * Looks up a module by the specified plugin handle value.
  *
- * @param plugin        Handle to plugin representing a moudle.
+ * @param plugin        Handle to plugin representing a module.
  *
  * @return              Module ID, or INVALID_ZM_MODULE if not found.
  */
@@ -127,7 +130,7 @@ native ZMModule:ZM_GetModuleByName(const String:name[]);
 /**
  * Gets the module description.
  *
- * @param moduleID      Module ID.
+ * @param moduleID      Module to read from.
  * @param buffer        Output buffer.
  * @param maxlen        Size of output buffer.
  *
