@@ -141,6 +141,7 @@ native ZMEvent:ZM_GetEventByName(const String:eventName[]);
  *
  * @param eventID       Event to unhook.
  *
+ * @noreturn
  * @error               Invalid event ID.
  */
 native ZM_UnhookEvent(ZMEvent:eventID);

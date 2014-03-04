@@ -98,8 +98,11 @@ enum ZMRepository
  * Creates a new named entity type.
  *
  * @param name          Unique identifier for the entity type.
- * @param blockSize     Number of cells reserved for each attribute value.
- * @param keySize       Number of cells reserved for attribute names.
+ * @param blockSize     Number of cells reserved for each attribute value. This
+ *                      defines the maximum size of arrays or strings that can
+ *                      be stored in attributes.
+ * @param keySize       (Optional) Number of cells reserved for attribute names.
+ *                      Default is 8 cells (32 bytes).
  *
  * @return              Entity type ID. Must be deleted with ZM_DeleteEntityType
  *                      when no longer in use.
@@ -127,28 +130,31 @@ native ZMEntityType:ZM_GetEntityType(const String:name[]);
  * Deletes the specified entity type.
  *
  * Warning: All references to this entity type will become invalid and cause an
- *          error when accessed.
+ *          error if accessed.
  *
  * @param type          Entity type ID.
+ *
+ * @noreturn
  */
 native ZM_DeleteEntityType(ZMEntityType:type);
 
 /*____________________________________________________________________________*/
 
 /**
- * Creates a new named repository using the specified entity type.
+ * Creates a new named repository capable of storing entities of the specified
+ * type.
  *
  * @param name          Unique identifier for the repository.
- * @param type          The type of data structure that is stored.
+ * @param entityType    The type of data structure that is stored.
  * @param isPrivate     (Optional) Whether the repository is only accessible by
- *                      the module that created it.
+ *                      the module (plugin) that created it.
  *
  * @return              Repository ID.
  * @error               Invalid name, type or name already in use.
  */
 native ZMRepository:ZM_CreateRepository(
         const String:name[],
-        ZMEntityType:type,
+        ZMEntityType:entityType,
         bool:isPrivate = false);
 
 /*____________________________________________________________________________*/
@@ -168,10 +174,11 @@ native ZMRepository:ZM_GetRepository(const String:name[]);
  * Deletes the specified repository.
  *
  * Warning: All references to this repository will become invalid and cause an
- *          error when accessed.
+ *          error if accessed.
  *
  * @param repository    Repository ID.
  *
+ * @noreturn
  * @error               Invalid repository ID.
  */
 native ZM_DeleteRepository(ZMRepository:repository);
@@ -193,10 +200,11 @@ native ZMEntity:ZM_CreateEntity(ZMEntityType:type);
  * Deletes the specified entity.
  *
  * Warning: All references to this entity will become invalid and cause an error
- *          when accessed.
+ *          if accessed.
  *
  * @param entity        Entity ID.
  *
+ * @noreturn
  * @error               Invalid entity ID.
  */
 native ZM_DeleteEntity(ZMEntity:entity);
@@ -210,6 +218,10 @@ native ZM_DeleteEntity(ZMEntity:entity);
  * @param name          Name of attribute. Must be unique for the entity type.
  * @param dataType      Data type of attribute.
  * @param constraint    (Optional) Attribute constraints (max/min, etc).
+ *
+ * @noreturn
+ * @error               Invalid entity type, data type, or name is already in
+ *                      use for this type.
  */
 native ZM_AddEntityAttribute(
         ZMEntityType:type,
@@ -222,8 +234,9 @@ native ZM_AddEntityAttribute(
 /*
 TODO:
 * Constraint builders
-* Accessor functions (some of them can be stock functions)
 * Validation helpers (to avoid repeated code in accessor functions)
 * Load from file (keyvalues)
 * Need to handle reloading of modules that attempts to recreate repositories
+* Resource events: entity modified, added, removed, etc.
+* Event listeners for single entites (may be expensive).
 */

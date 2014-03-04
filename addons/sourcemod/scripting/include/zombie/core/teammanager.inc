@@ -101,7 +101,7 @@ admins.
  * Virtual team ID.
  *
  * All teams are referred by their ID. The team name is just used for initial
- * lookup and eventually as output to the user.
+ * lookup, and eventually as output to the user.
  */
 enum ZMTeam
 {
@@ -135,7 +135,6 @@ native ZMTeam:ZM_GetTeamByName(const String:teamName[]);
  * @param teamName      Name of the new team.
  *
  * @return              Virtual team ID if created, otherwise INVALID_ZM_TEAM.
- *
  * @error               Team name already exists.
  */
 native ZMTeam:ZM_CreateTeam(const String:teamName[]);
@@ -172,6 +171,7 @@ native Handle:ZM_GetTeams();
  * @param team          Virtual team to map.
  * @param teamIndex     Game specific team index to map virtual team to.
  *
+ * @noreturn
  * @error               Invalid team ID.
  */
 native ZM_SetTeamIndex(ZMTeam:teamID, teamIndex);
@@ -183,6 +183,7 @@ native ZM_SetTeamIndex(ZMTeam:teamID, teamIndex);
  *
  * @param team          Virtual team to get team index from.
  *
+ * @noreturn
  * @error               Invalid team ID.
  */
 native ZM_GetTeamIndex(ZMTeam:teamID);
@@ -216,6 +217,8 @@ native ZMTeam:ZM_GetClientTeam(client);
  *
  * @param client        Player's index.
  * @param team          Team ID.
+ *
+ * @noreturn
  */
 native ZM_SwitchTeam(client, ZMTeam:teamID);
 

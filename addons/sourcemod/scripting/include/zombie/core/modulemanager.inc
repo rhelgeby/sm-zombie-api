@@ -141,6 +141,7 @@ native ZM_SetModuleDescription(const String:description[]);
  *
  * @param dependency    Module that the plugin depends on.
  *
+ * @noreturn
  * @error               Invalid dependency, or plugin is not registered as a
  *                      module.
  */
@@ -153,6 +154,7 @@ native ZM_AddModuleDependency(ZMModule:dependency);
  *
  * @param dependency    Module that the plugin depends on.
  *
+ * @noreturn
  * @error               Invalid dependency, or plugin is not registered as a
  *                      module.
  */
