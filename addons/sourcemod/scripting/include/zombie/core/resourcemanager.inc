@@ -29,6 +29,8 @@
 #endif
 #define _zm_resourcemanager_included
 
+#include <zombie/core/resourcemanager/resourceaccessors>
+
 /**
  * Default number of cells reserved for key names.
  */
@@ -38,16 +40,16 @@
 
 /**
  * Valid data types for entities.
- *
- * TODO: Arrays, handles and function references?
  */
 enum ZMEntityDataType
 {
-    ZMEntityDataType_Cell,
+    ZMEntityDataType_Cell,          /** Cell or any singular value. */
     ZMEntityDataType_Bool,
     ZMEntityDataType_Float,
+    ZMEntityDataType_Array,         /** One-dimensional array. */
     ZMEntityDataType_String,
-    ZMEntityDataType_Entity
+    ZMEntityDataType_Reference,     /** Reference to another entity. */
+    ZMEntityDataType_ReferenceType  /** Reference to an entity type. */
 }
 
 /*____________________________________________________________________________*/
