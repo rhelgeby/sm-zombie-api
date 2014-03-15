@@ -113,6 +113,16 @@ enum ZMEntityType
 /*____________________________________________________________________________*/
 
 /**
+ * Entity attribute ID.
+ */
+enum ZMEntityAttribute
+{
+    INVALID_ZM_ENTITY_ATTRIBUTE = -1;
+}
+
+/*____________________________________________________________________________*/
+
+/**
  * Entity constraint ID.
  */
 enum ZMEntityConstraint
@@ -267,11 +277,11 @@ native ZM_DeleteEntity(ZMEntity:entity);
  * @param dataType      Data type of attribute.
  * @param constraint    (Optional) Attribute constraints (max/min, etc).
  *
- * @noreturn
+ * @return              Attribute ID.
  * @error               Invalid entity type, data type, or name is already in
  *                      use for this type.
  */
-native ZM_AddEntityAttribute(
+native ZMEntityAttribute:ZM_AddEntityAttribute(
         ZMEntityType:type,
         const String:name[],
         ZMEntityDataType:dataType,
