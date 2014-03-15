@@ -3,7 +3,7 @@
  *
  *  Zombie API
  *
- *  File:           resourceaccessors.inc
+ *  File:           accessors.inc
  *  Description:    Resource accessor functions. Include resource manager
  *                  instead of this file.
  *
