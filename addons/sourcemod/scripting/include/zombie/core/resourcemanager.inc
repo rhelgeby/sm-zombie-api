@@ -190,11 +190,18 @@ native ZMEntityType:ZM_GetEntityType(const String:name[]);
  * Warning: All references to this entity type will become invalid and cause an
  *          error if accessed.
  *
- * @param type          Entity type ID.
+ * @param type              Entity type ID.
+ * @param resetReference    (Optional) Reset type to INVALID_ZM_ENTITY_TYPE when
+ *                          deleted. Default is true.
+ * @param deleteConstraints (Optional) Delete constraint definitions attached to
+ *                          attributes. Default is false.
  *
  * @noreturn
  */
-native ZM_DeleteEntityType(ZMEntityType:type);
+native ZM_DeleteEntityType(
+        ZMEntityType:type,
+        bool:resetReference = true,
+        bool:deleteConstraints = false);
 
 /*____________________________________________________________________________*/
 
