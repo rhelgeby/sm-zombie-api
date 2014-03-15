@@ -296,6 +296,22 @@ native ZMEntityAttribute:ZM_AddEntityAttribute(
 
 /*____________________________________________________________________________*/
 
+/**
+ * Returns the ID of an attribute in the specified entity type.
+ *
+ * @param type          Entity type to inspect.
+ * @param name          Name of attribute to look up.
+ *
+ * @return              Attribute ID if found, otherwise
+ *                      INVALID_ZM_ENTITY_ATTRIBUTE.
+ * @error               Invalid entity type.
+ */
+native ZMEntityAttribute:ZM_GetAttributeID(
+        ZMEntityType:type,
+        const String:name[]);
+
+/*____________________________________________________________________________*/
+
 /*
 TODO:
 * Constraint builders
