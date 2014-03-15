@@ -29,7 +29,8 @@
 #endif
 #define _zm_resourcemanager_included
 
-#include <zombie/core/resourcemanager/resourceaccessors>
+#include <zombie/core/resourcemanager/accessors>
+#include <zombie/core/resourcemanager/constraints>
 
 /*____________________________________________________________________________*/
 
