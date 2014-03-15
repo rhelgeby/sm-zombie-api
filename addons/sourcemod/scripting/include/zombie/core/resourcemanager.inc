@@ -125,9 +125,9 @@ enum ZMEntityAttribute
 /**
  * Entity constraint ID.
  */
-enum ZMEntityConstraint
+enum ZMConstraint
 {
-    INVALID_ZM_ENTITY_CONSTRAINT = -1
+    INVALID_ZM_CONSTRAINT = -1
 }
 
 /*____________________________________________________________________________*/
@@ -149,6 +149,152 @@ enum ZMRepository
 {
     INVALID_ZM_REPOSITORY = -1
 }
+
+/*____________________________________________________________________________*/
+
+/**
+ * Results from constraint handlers.
+ *
+ * Some constraint handlers may override the value being set, such as lookup
+ * constraints.
+ */
+enum ZMConstraintResult
+{
+    ZMConstraintResult_Invalid,     /** Value is invalid. */
+    ZMConstraintResult_Valid,       /** Value is valid. */
+    ZMConstraintResult_Overridden   /** Value is valid and overridden by constraint handler. */
+}
+
+/*____________________________________________________________________________*/
+
+/**
+ * Custom key validation callback. Use this if you need custom validation of an
+ * entity attribute.
+ *
+ * It's also possible to override the value being stored by setting new values
+ * in the specified entity through the set-accessor functions. Remember to
+ * return ZMConstraintResult_Overridden in this case.
+ *
+ * Note that all other custom constraints are disabled inside this callback.
+ * This prevents infinite recursion if the value is overridden.
+ *
+ * @param entity            Entity being validated.
+ * @param entityType        Entity type (meta data).
+ * @param attributeName     Attribute being validated.
+ * @param dataType          Data type of attribute.
+ * @param values            Value(s) to validate. Singular values (cell, float,
+ *                          etc.) are stored at index 0.
+ * @param size              Number of elements in values parameter (length of
+ *                          string or array). For singular values it's always 1.
+ *
+ * @return                  Specifies whether the value was valid, invalid or
+ *                          overridden. See ZMConstraintResult.
+ */
+functag public ZMConstraintResult:ZMKeyValidator(
+        Entity:entity,
+        EntityType:entityType,
+        const String:attributeName[],
+        ZMEntityDataType:dataType,
+        const any:values[],
+        size);
+
+/*____________________________________________________________________________*/
+
+/**
+ * Available lookup methods for lookup constraint handlers.
+ */
+enum ZMLookupMethod
+{
+    /**
+     * Use two ADT arrays where one contains entry names (strings) and the other
+     * contains replacement values at the same indexes as entries in the first
+     * array. The handler will search through the array for matching names.
+     */
+    ZMLookupMethod_Array,
+    
+    /**
+     * Use an ADT Trie where entry names (strings) are mapped to the replacement
+     * value. Faster than searching an array.
+     */
+    ZMookupMethod_Trie,
+    
+    /**
+     * Use a custom callback where the callback decides which value to use.
+     * Useful for more advanced lookups (such as using a database). See the
+     * ObjLib_StringLookup callback for more details.
+     */
+    ZMLookupMethod_Callback
+}
+
+/*____________________________________________________________________________*/
+
+
+/**
+ * Available lookup callbacks for the lookup constraint handler. Make sure you
+ * use a callback that match the destination type (data type of replacement
+ * parameter matching attribute data type in the entity).
+ */
+funcenum ZMLookupCallback
+{
+    /**
+     * Lookup callback for value lookup constraint handler. Used to convert a
+     * string into a value.
+     *
+     * @param entity            Entity being validated.
+     * @param attribute         Entity attribute ID.
+     * @param lookup            String value to look up.
+     * @param replacement       (Output). Replacement value to store in entity.
+     *
+     * @return                  True if lookup value was valid and successfully
+     *                          converted, false otherwise.
+     */
+    bool:public(
+            Entity:entity,
+            ZMEntityAttribute:attribute,
+            const String:lookup[],
+            &any:replacement),
+    
+    /**
+     * Lookup callback for array lookup constraint handler. Used to convert a
+     * string into an array.
+     *
+     * @param entity            Entity being validated.
+     * @param attribute         Entity attribute ID.
+     * @param lookup            String value to look up.
+     * @param replacement       (Output). Replacement array to store in entity.
+     * @param maxlen            Size of replacement array.
+     *
+     * @return                  Number of cells copied to replacement array if
+     *                          value was valid, or -1 if value was invalid.
+     */
+    public(
+            Entity:entity,
+            ZMEntityAttribute:attribute,
+            const String:lookup[],
+            any:replacement[],
+            maxlen),
+    
+    /**
+     * Lookup callback for string lookup constraint handler. Used to convert a
+     * string into another string.
+     *
+     * @param entity            Entity being validated.
+     * @param attribute         Entity attribute ID.
+     * @param lookup            String value to look up.
+     * @param replacement       (Output). Replacement string to store in entity.
+     * @param maxlen            Size of replacement array.
+     *
+     * @return                  Number of characters copied to replacement
+     *                          string if value was valid, or -1 if value was
+     *                          invalid.
+     */
+    public(
+            Entity:entity,
+            ZMEntityAttribute:attribute,
+            const String:lookup[],
+            String:replacement[],
+            maxlen)
+};
 
 /*____________________________________________________________________________*/
 
@@ -292,7 +438,7 @@ native ZMEntityAttribute:ZM_AddEntityAttribute(
         ZMEntityType:type,
         const String:name[],
         ZMEntityDataType:dataType,
-        ZMEntityConstraint:constraint = INVALID_ZM_ENTITY_CONSTRAINT);
+        ZMConstraint:constraint = INVALID_ZM_CONSTRAINT);
 
 /*____________________________________________________________________________*/
 
@@ -314,7 +460,6 @@ native ZMEntityAttribute:ZM_GetAttributeID(
 
 /*
 TODO:
-* Constraint builders
 * Validation helpers (to avoid repeated code in accessor functions)
 * Load from file (keyvalues)
 * Need to handle reloading of modules that attempts to recreate repositories
