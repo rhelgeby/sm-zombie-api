@@ -55,6 +55,19 @@ which module that implements it.
 /*____________________________________________________________________________*/
 
 /**
+ * @section Events
+ */
+
+functag OnFeatureAdded(ZMFeature:featureID);
+functag OnFeatureRemoved(ZMFeature:featureID);
+
+/**
+ * @endsection
+ */
+
+/*____________________________________________________________________________*/
+
+/**
  * Module ID.
  */
 enum ZMModule
@@ -66,9 +79,6 @@ enum ZMModule
 
 /**
  * Feature ID.
- *
- * TODO: Should possibly be moved to its own feature API, but the feature
- *       information might be stored along with modules since they're related.
  */
 enum ZMFeature
 {
@@ -151,6 +161,7 @@ native ZM_SetModuleDescription(const String:description[]);
 /*____________________________________________________________________________*/
 
 /**
+ * TODO: Reconsider using feature dependencies instead.
  * Declares a dependency on the specified module. If a dependency is
  * unavailable, the module will be notified.
  *
@@ -174,3 +185,61 @@ native ZM_AddModuleDependency(ZMModule:dependency);
  *                      module.
  */
 native ZM_RemoveModuleDependency(ZMModule:dependency);
+
+/*____________________________________________________________________________*/
+
+/**
+ * Declares a feature identifier and assigns it to the caller module.
+ *
+ * @param identifier    Global and unique name of the feature. Other modules
+ *                      may declare dependency on this feature.
+ *
+ * @return              Feature ID.
+ * @error               Name is blank or already in use.
+ */
+native ZMFeature:ZM_CreateFeature(const String:identifier[]);
+
+/*____________________________________________________________________________*/
+
+/**
+ * Deletes and unregisters a feature in the caller module.
+ *
+ * @param featureID     Feature to delete.
+ */
+native ZM_DeleteFeature(ZMFeature:featureID);
+
+/*____________________________________________________________________________*/
+
+/**
+ * Gets a feature.
+ *
+ * @param identifier    Feature identifier string.
+ *
+ * @return              Feature ID if found, otherwise INVALID_ZM_FEATURE.
+ */
+native ZMFeature:ZM_GetFeature(const String:identifier[]);
+
+/*____________________________________________________________________________*/
+
+/**
+ * Returns whether the specified feature exists.
+ *
+ * @param identifier    Feature identifier to search for.
+ *
+ * @return              True if feature exists, false otherwise.
+ */
+stock bool:ZM_FeatureExists(const String:identifier[])
+{
+    return ZM_GetFeature(identifier) != INVALID_ZM_FEATURE;
+}
+
+/*____________________________________________________________________________*/
+
+/**
+ * Gets the specified feature's owner module.
+ *
+ * @parma featureID     Feature to look up.
+ *
+ * @return              Module ID if found, otherwise INVALID_ZM_MODULE.
+ */
+native ZMModule:ZM_GetFeatureOwner(ZMFeature:featureID);
