@@ -31,6 +31,7 @@
 
 #include <zombie/core/resourcemanager/accessors>
 #include <zombie/core/resourcemanager/constraints>
+#include <zombie/core/resourcemanager/repository>
 
 /*____________________________________________________________________________*/
 
@@ -349,51 +350,6 @@ native ZM_DeleteEntityType(
         ZMEntityType:type,
         bool:resetReference = true,
         bool:deleteConstraints = false);
-
-/*____________________________________________________________________________*/
-
-/**
- * Creates a new named repository capable of storing entities of the specified
- * type.
- *
- * @param name          Unique identifier for the repository.
- * @param entityType    The type of data structure that is stored.
- * @param isPrivate     (Optional) Whether the repository is only accessible by
- *                      the module (plugin) that created it.
- *
- * @return              Repository ID.
- * @error               Invalid name, type or name already in use.
- */
-native ZMRepository:ZM_CreateRepository(
-        const String:name[],
-        ZMEntityType:entityType,
-        bool:isPrivate = false);
-
-/*____________________________________________________________________________*/
-
-/**
- * Gets a repository by name.
- *
- * @param name          Repository name.
- *
- * @return              Repository ID or INVALID_ZM_REPOSITORY if not found.
- */
-native ZMRepository:ZM_GetRepository(const String:name[]);
-
-/*____________________________________________________________________________*/
-
-/**
- * Deletes the specified repository.
- *
- * Warning: All references to this repository will become invalid and cause an
- *          error if accessed.
- *
- * @param repository    Repository ID.
- *
- * @noreturn
- * @error               Invalid repository ID.
- */
-native ZM_DeleteRepository(ZMRepository:repository);
 
 /*____________________________________________________________________________*/
 
