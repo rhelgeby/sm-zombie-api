@@ -194,19 +194,19 @@ functag Action:ZMOnPlayerFireWeapon(client, const String:weapon[]);
  *
  * @param callback      Event callback.
  *
- * @noreturn
+ * @return              Event ID.
  * @error               Invalid callback, or caller is not a registered module.
  */
-native ZM_HookRoundStart(ZMOnRoundStart:callback);
-native ZM_HookRoundFreezeEnd(ZMOnRoundFreezeEnd:callback);
-native ZM_HookRoundEnd(ZMOnRoundEnd:callback);
-native ZM_HookPlayerTeamPre(ZMOnPlayerTeamPre:callback);
-native ZM_HookPlayerTeam(ZMOnPlayerTeam:callback);
-native ZM_HookPlayerSpawn(ZMOnPlayerSpawn:callback);
-native ZM_HookPlayerHurt(ZMOnPlayerHurt:callback);
-native ZM_HookPlayerDeath(ZMOnPlayerDeath:callback);
-native ZM_HookPlayerJump(ZMOnPlayerJump:callback);
-native ZM_HookPlayerFireWeapon(ZMOnPlayerFireWeapon:callback);
+native ZMEvent:ZM_HookRoundStart(ZMOnRoundStart:callback);
+native ZMEvent:ZM_HookRoundFreezeEnd(ZMOnRoundFreezeEnd:callback);
+native ZMEvent:ZM_HookRoundEnd(ZMOnRoundEnd:callback);
+native ZMEvent:ZM_HookPlayerTeamPre(ZMOnPlayerTeamPre:callback);
+native ZMEvent:ZM_HookPlayerTeam(ZMOnPlayerTeam:callback);
+native ZMEvent:ZM_HookPlayerSpawn(ZMOnPlayerSpawn:callback);
+native ZMEvent:ZM_HookPlayerHurt(ZMOnPlayerHurt:callback);
+native ZMEvent:ZM_HookPlayerDeath(ZMOnPlayerDeath:callback);
+native ZMEvent:ZM_HookPlayerJump(ZMOnPlayerJump:callback);
+native ZMEvent:ZM_HookPlayerFireWeapon(ZMOnPlayerFireWeapon:callback);
 /**
  * @endsection
  */
