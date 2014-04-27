@@ -161,34 +161,6 @@ native ZM_SetModuleDescription(const String:description[]);
 /*____________________________________________________________________________*/
 
 /**
- * TODO: Reconsider using feature dependencies instead.
- * Declares a dependency on the specified module. If a dependency is
- * unavailable, the module will be notified.
- *
- * @param dependency    Module that the plugin depends on.
- *
- * @noreturn
- * @error               Invalid dependency, or plugin is not registered as a
- *                      module.
- */
-native ZM_AddModuleDependency(ZMModule:dependency);
-
-/*____________________________________________________________________________*/
-
-/**
- * Removes a dependency on the specified module.
- *
- * @param dependency    Module that the plugin depends on.
- *
- * @noreturn
- * @error               Invalid dependency, or plugin is not registered as a
- *                      module.
- */
-native ZM_RemoveModuleDependency(ZMModule:dependency);
-
-/*____________________________________________________________________________*/
-
-/**
  * Declares a feature identifier and assigns it to the caller module.
  *
  * @param identifier    Global and unique name of the feature. Other modules
