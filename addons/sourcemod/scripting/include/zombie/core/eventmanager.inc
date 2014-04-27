@@ -139,12 +139,13 @@ native ZMEvent:ZM_GetEventByName(const String:eventName[]);
 /**
  * Removes an event hook.
  *
- * @param eventID       Event to unhook.
+ * @param event         Event ID.
+ * @param callback      Callback to unhook.
  *
  * @noreturn
- * @error               Invalid event ID.
+ * @error               Invalid event ID or callback.
  */
-native ZM_UnhookEvent(ZMEvent:eventID);
+native ZM_UnhookEvent(ZMEvent:event, Function:callback);
 
 /*____________________________________________________________________________*/
 
