@@ -33,16 +33,53 @@
 
 /*
 
+GOALS
+
+Technical user stories:
+
+* As a plugin I need to register myself as a module in the module manager so I
+  can become an authenticated module in the zombie framework.
+
+* As a module I need to have a unique ID so I can be identified by the zombie
+  framework.
+
+* As a module I need to have a name so I can be identified by server admins.
+
+* As a module I need to have a description so server admins know what I do.
+
+* As a module I need to declare unique named features that other modules can
+  declare dependency on, to avoid explicit dependency on the module itself.
+
+* As a module I need to declare dependency on a named feature.
+
+* As a module I need to be notified when a dependent feature is unavailable so I
+  can do cleanup before disabling myself.
+
+* As a module I need to be notified when a dependent feature is available so I
+  can re-initialize myself.
+
+
 Context awareness:
 Some natives are context aware, so that only the owner plugin can do actions
 on its own module. We don't need to pass the module ID, because registered
 modules can be looked up by the plugin handle of the caller.
 
 Dependencies:
-Module dependencies might not be a good idea, because it creates a coupling to
-a complete module while you may just need a small feature. A better approach
-might be to declare dependencies on specific features, so it doesn't matter
-which module that implements it.
+The module manager doesn't support module dependencies. Instead, modules declare
+dependencies on specific features, regardless which module that implements it.
+
+Unique module ID:
+Since a module can be unloaded and reloaded, it must re-register itself as a
+module and will get another module ID. The old module ID will not be used again,
+until the server is restarted.
+
+Bootstrap event:
+The module manager should make use of RegPluginLibrary so plugins can listen for
+availability of the module manager. The ideal solution is that even the module
+manager can be reloaded in the middle of the game, and that modules will
+dynamically react to this event. It will obviously cause some interruptions in
+the game, but modules should be flexible enough to start over after resetting
+the round.
 
 */
 
