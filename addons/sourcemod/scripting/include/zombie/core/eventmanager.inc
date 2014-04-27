@@ -33,10 +33,54 @@
 
 /*
 
+GOALS
+
+Technical user stories:
+
+* As a module I need to create a named event to easily notify many modules at
+  once.
+
+* As a module I need to look an event up by name to avoid tight coupling between
+  modules.
+
+* As a module I need to hook an event to be able to listen to events.
+
+* As a module I need to unhook an event if I no longer want to listen to the
+  event.
+
+* As a module I need to know when events are being defined so I can define my
+  own events before other modules tries to hook them.
+
+* As a module I need to know when all events are defined so I can hook events.
+
+* As a module I need to trigger an event so a message can be broadcasted to
+  listening modules.
+
+* As a module I don't want to receive events if I'm disabled in the module
+  manager.
+
+* As the event manager I need to fire a specific event to a single module to
+  be able to replay events when a module is enabled late.
+
+* As a module I need to mark an event as replayable for late loaded modules.
+
+* As the event manager I need to store prioritized list of events to replay for
+  late loaded modules.
+
+
 IMPLEMENTATION GUIDELINES
 
+Forwards:
+Implement events using private forwards. Then most of the work can be delegated
+to SourceMod, including type safety.
+
+Direct events:
+To be able to send fire an event for a specific module, the event manager still
+need to store a list of callbacks. SourceMod also stores a callback list for
+every forward, but we also need to know which module that callback belongs to.
+
 Event owner:
-The plugin that creates an event is considered the event owner. Only that plugin
+The module that creates an event is considered the event owner. Only that module
 is allowed to fire the event.
 
 Event hooks:
@@ -54,6 +98,13 @@ New and unloaded plugins:
 The event manager must update its list of event callbacks when a plugin is
 unloaded, so that any event it may own is unregistered and properly removed.
 Event hooks that other mouldes made to that event should be unhooked.
+
+Bootstrapping:
+Due to plugins being loaded in an undefined order, there's no guarantee that the
+event manager will be loaded before other plugins that depends on its API. They
+need to consider using LibraryExists and OnLibraryAdded. We might need a
+bootstrap library that plugins can include to avoid custom bootstrap logic in
+each plugin.
 
 */
 
