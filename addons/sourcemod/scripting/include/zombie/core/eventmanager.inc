@@ -137,6 +137,25 @@ native ZMEvent:ZM_GetEventByName(const String:eventName[]);
 /*____________________________________________________________________________*/
 
 /**
+ * Adds a callback to an event.
+ *
+ * This is a generic native intended to be used by modules that create events.
+ * It does not provide type safety (any function can be passed), so it should be
+ * wrapped by a hook function for a specific event with a specific callback tag.
+ *
+ * @param module        Module where callback resides.
+ * @param event         Event to add callback to.
+ * @param callback      Function callback to add.
+ *
+ * @noreturn
+ * @error               Invalid event ID or callback, or caller does not own
+ *                      this event.
+ */
+native ZM_HookEvent(ZMModule:module, ZMEvent:event, Function:callback);
+
+/*____________________________________________________________________________*/
+
+/**
  * Removes an event hook.
  *
  * @param event         Event ID.
