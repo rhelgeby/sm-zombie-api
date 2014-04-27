@@ -140,13 +140,13 @@ native ZMModule:ZM_GetModuleByName(const String:name[]);
 /**
  * Gets the module description.
  *
- * @param moduleID      Module to read from.
+ * @param module        Module to read from.
  * @param buffer        Output buffer.
  * @param maxlen        Size of output buffer.
  *
  * @return              Number of characters written.
  */
-native ZM_GetModuleDescription(ZMModule:moduleID, String:buffer[], maxlen);
+native ZM_GetModuleDescription(ZMModule:module, String:buffer[], maxlen);
 
 /*____________________________________________________________________________*/
 
@@ -204,9 +204,9 @@ native ZMFeature:ZM_CreateFeature(const String:identifier[]);
 /**
  * Deletes and unregisters a feature in the caller module.
  *
- * @param featureID     Feature to delete.
+ * @param feature       Feature to delete.
  */
-native ZM_DeleteFeature(ZMFeature:featureID);
+native ZM_DeleteFeature(ZMFeature:feature);
 
 /*____________________________________________________________________________*/
 
@@ -238,8 +238,8 @@ stock bool:ZM_FeatureExists(const String:identifier[])
 /**
  * Gets the specified feature's owner module.
  *
- * @parma featureID     Feature to look up.
+ * @parma feature       Feature to look up.
  *
  * @return              Module ID if found, otherwise INVALID_ZM_MODULE.
  */
-native ZMModule:ZM_GetFeatureOwner(ZMFeature:featureID);
+native ZMModule:ZM_GetFeatureOwner(ZMFeature:feature);
