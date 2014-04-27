@@ -156,7 +156,7 @@ native ZM_UnhookEvent(ZMEvent:eventID);
  * @return              Event ID.
  * @error               Event is already hooked by the module.
  */
-native ZMEvent:ZM_HookOnEventsCreate(ZM_OnEventsCreate:callback);
+native ZMEvent:ZM_HookEventsCreate(ZM_OnEventsCreate:callback);
 
 /*____________________________________________________________________________*/
 
@@ -168,4 +168,4 @@ native ZMEvent:ZM_HookOnEventsCreate(ZM_OnEventsCreate:callback);
  * @return              Event ID.
  * @error               Event is already hooked by the module.
  */
-native ZMEvent:ZM_HookOnEventsCreated(ZM_OnEventsCreated:callback);
+native ZMEvent:ZM_HookEventsCreated(ZM_OnEventsCreated:callback);
