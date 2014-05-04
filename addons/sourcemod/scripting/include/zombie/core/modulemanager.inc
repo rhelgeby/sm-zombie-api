@@ -60,26 +60,32 @@ Technical user stories:
 
 
 Context awareness:
-Some natives are context aware, so that only the owner plugin can do actions
-on its own module. We don't need to pass the module ID, because registered
-modules can be looked up by the plugin handle of the caller.
+Some natives are context aware, so that only the owner plugin can do actions on
+its own module. We don't need to pass the module ID, because registered modules
+can be looked up by the plugin handle of the caller. None of the module
+manager's natives should be used in performance critical areas.
 
 Dependencies:
 The module manager doesn't support module dependencies. Instead, modules declare
 dependencies on specific features, regardless which module that implements it.
+The implementation may use SourceMod's own feature status natives as long as the
+module manager API specification is followed.
 
 Unique module ID:
-Since a module can be unloaded and reloaded, it must re-register itself as a
-module and will get another module ID. The old module ID will not be used again,
-until the server is restarted.
+If a module is reloaded, it must re-register itself as a module and will get
+another module ID. The old module ID will not be used again, until the module
+manager is reloaded.
+
+When the module manager is unloaded, all module IDs are considered invalid.
+All modules should to listen for availability status of the module manager by
+using OnLibraryAdded/OnLibraryRemoved.
 
 Bootstrap event:
 The module manager should make use of RegPluginLibrary so plugins can listen for
-availability of the module manager. The ideal solution is that even the module
+availability of the module manager. The ideal solution is that the module
 manager can be reloaded in the middle of the game, and that modules will
-dynamically react to this event. It will obviously cause some interruptions in
-the game, but modules should be flexible enough to start over after resetting
-the round.
+dynamically react to this event. It may cause some interruptions in the game,
+but modules should be flexible enough to start over in the next round.
 
 */
 
@@ -88,6 +94,14 @@ the round.
 // TODO: Events for initializing module on late load.
 
 // TODO: Add natives for enabling and disabling modules?
+
+/*____________________________________________________________________________*/
+
+/**
+ * Predefined module manager library name to be used with OnLibraryAdded,
+ * OnLibraryRemoved, and LibraryExists.
+ */
+#define LIBRARY_ZM_MODULE_MANAGER "zm_module_manager"
 
 /*____________________________________________________________________________*/
 
