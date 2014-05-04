@@ -109,8 +109,23 @@ but modules should be flexible enough to start over in the next round.
  * @section Events
  */
 
-functag OnFeatureAdded(ZMFeature:featureID);
-functag OnFeatureRemoved(ZMFeature:featureID);
+/**
+ * A feature was just added.
+ *
+ * @param feature       ID of added feature.
+ *
+ * @noreturn
+ */
+#define ZM_ON_FEATURE_ADDED "OnFeatureAdded"
+functag OnFeatureAdded(ZMFeature:feature);
+
+/**
+ * A feature is being removed.
+ *
+ * @param feature       ID of feature being removed.
+ */
+#define ZM_ON_FEATURE_REMOVE "OnFeatureRemove"
+functag OnFeatureRemove(ZMFeature:feature);
 
 /**
  * @endsection
@@ -214,6 +229,10 @@ native ZM_SetModuleDescription(const String:description[]);
 /**
  * Declares a feature identifier and assigns it to the caller module.
  *
+ * Note: This native will also trigger the OnFeatureAdded event, if the event
+ *       manager is initialized. Modules should consider using ZM_FeatureExists
+ *       if the event manager is unavailable (as in the bootstrap phase).
+ *
  * @param identifier    Global and unique name of the feature. Other modules
  *                      may declare dependency on this feature.
  *
@@ -226,6 +245,9 @@ native ZMFeature:ZM_CreateFeature(const String:identifier[]);
 
 /**
  * Deletes and unregisters a feature in the caller module.
+ *
+ * Note: This native will also trigger the OnFeatureRemove event, if the event
+ *       manager is initialized.
  *
  * @param feature       Feature to delete.
  */
@@ -266,3 +288,29 @@ stock bool:ZM_FeatureExists(const String:identifier[])
  * @return              Module ID if found, otherwise INVALID_ZM_MODULE.
  */
 native ZMModule:ZM_GetFeatureOwner(ZMFeature:feature);
+
+/*____________________________________________________________________________*/
+
+/**
+ * Registers an event hook for the OnFeatureAdded event.
+ *
+ * @param callback      Function to call when event is fired.
+ *
+ * @return              Event ID.
+ * @error               Event is already hooked by the module, or event manager
+ *                      is not initialized.
+ */
+native ZMEvent:ZM_HookFeatureAdded(ZM_OnFeatureAdded:callback);
+
+/*____________________________________________________________________________*/
+
+/**
+ * Registers an event hook for the OnFeatureRemove event.
+ *
+ * @param callback      Function to call when event is fired.
+ *
+ * @return              Event ID.
+ * @error               Event is already hooked by the module, or event manager
+ *                      is not initialized.
+ */
+native ZMEvent:ZM_HookFeatureRemove(ZM_OnFeatureRemove:callback);
