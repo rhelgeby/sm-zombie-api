@@ -156,6 +156,10 @@ enum ZMFeature
 /**
  * Creates a new module. The new module is bound to the calling plugin.
  *
+ * Warning: You must call ZM_DeleteModule when the module is no longer in use,
+ *          such as in OnPluginEnd. Otherwise the module manager will never know
+ *          when the module is removed.
+ *
  * Note: A plugin is only allowed to create one module. The module will remain
  *       registered until the plugin is unloaded.
  *
@@ -166,6 +170,18 @@ enum ZMFeature
  *                      use or name is empty.
  */
 native ZMModule:ZM_CreateModule(const String:name[]);
+
+/*____________________________________________________________________________*/
+
+/**
+ * Deletes the module and notifies dependents.
+ *
+ * Call this function from OnPluginEnd or when the module is no longer in use.
+ *
+ * @noreturn
+ * @error               Caller has not created a module.
+ */
+native ZM_DeleteModule();
 
 /*____________________________________________________________________________*/
 
