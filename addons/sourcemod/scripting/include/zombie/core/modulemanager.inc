@@ -186,6 +186,20 @@ native ZM_DeleteModule();
 /*____________________________________________________________________________*/
 
 /**
+ * Returns whether the specified module is valid.
+ *
+ * @param module        Module ID to validate.
+ *
+ * @return              True if valid, false otherwise.
+ */
+stock ZM_IsValidModule(ZMModule:module)
+{
+    return module != INVALID_ZM_MODULE;
+}
+
+/*____________________________________________________________________________*/
+
+/**
  * Looks up a module by the specified plugin handle value.
  *
  * @param plugin        Handle to plugin representing a module.
