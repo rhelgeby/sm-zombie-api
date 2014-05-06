@@ -162,8 +162,8 @@ enum ZMFeature
  * @param name          Unique module name. Used by lookup functions.
  *
  * @return              Module ID.
- * @error               Plugin has already created a module, id is already in
- *                      use.
+ * @error               Plugin has already created a module, name is already in
+ *                      use or name is empty.
  */
 native ZMModule:ZM_CreateModule(const String:name[]);
 
@@ -187,6 +187,7 @@ native ZMModule:ZM_GetModuleByPlugin(Handle:plugin);
  *
  * @return              Handle to owner plugin, or INVALID_ZM_MODULE if not
  *                      found.
+ * @error               Invalid module ID.
  */
 native Handle:ZM_GetModuleOwner(ZMModule:module);
 
@@ -211,6 +212,7 @@ native ZMModule:ZM_GetModuleByName(const String:name[]);
  * @param maxlen        Size of output buffer.
  *
  * @return              Number of characters written.
+ * @error               Invalid module ID.
  */
 native ZM_GetModuleDescription(ZMModule:module, String:buffer[], maxlen);
 
@@ -221,6 +223,9 @@ native ZM_GetModuleDescription(ZMModule:module, String:buffer[], maxlen);
  * commands.
  *
  * @param description   Description to set.
+ *
+ * @noreturn
+ * @error               Caller has not created a module.
  */
 native ZM_SetModuleDescription(const String:description[]);
 
@@ -237,7 +242,8 @@ native ZM_SetModuleDescription(const String:description[]);
  *                      may declare dependency on this feature.
  *
  * @return              Feature ID.
- * @error               Name is blank or already in use.
+ * @error               Name is blank or already in use. Caller has not created
+ *                      a module.
  */
 native ZMFeature:ZM_CreateFeature(const String:identifier[]);
 
@@ -250,6 +256,8 @@ native ZMFeature:ZM_CreateFeature(const String:identifier[]);
  *       manager is initialized.
  *
  * @param feature       Feature to delete.
+ *
+ * @error               Invalid feature, or caller is not the feature owner.
  */
 native ZM_DeleteFeature(ZMFeature:feature);
 
