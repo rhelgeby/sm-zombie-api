@@ -117,7 +117,7 @@ but modules should be flexible enough to start over in the next round.
  * @noreturn
  */
 #define ZM_ON_FEATURE_ADDED "OnFeatureAdded"
-functag OnFeatureAdded(ZMFeature:feature);
+functag public OnFeatureAdded(ZMFeature:feature);
 
 /**
  * A feature is being removed.
@@ -125,7 +125,7 @@ functag OnFeatureAdded(ZMFeature:feature);
  * @param feature       ID of feature being removed.
  */
 #define ZM_ON_FEATURE_REMOVE "OnFeatureRemove"
-functag OnFeatureRemove(ZMFeature:feature);
+functag public OnFeatureRemove(ZMFeature:feature);
 
 /**
  * @endsection
@@ -138,7 +138,7 @@ functag OnFeatureRemove(ZMFeature:feature);
  */
 enum ZMModule
 {
-    INVALID_ZM_MODUlE = -1
+    INVALID_ZM_MODULE = -1
 }
 
 /*____________________________________________________________________________*/
