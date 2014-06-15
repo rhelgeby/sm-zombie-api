@@ -196,6 +196,22 @@ native ZMEvent:ZM_GetEventByName(const String:eventName[]);
 /*____________________________________________________________________________*/
 
 /**
+ * Returns whether the specified event exists.
+ *
+ * @param eventName     Event name to look up.
+ *
+ * @return              True if event exists, false otherwise.
+ * @error               Caller is not a module.
+ */
+stock bool:ZM_EventExists(const String:eventName[])
+{
+    new ZMEvent:event = ZM_GetEventByName(eventName);
+    return ZM_IsValidEvent(event);
+}
+
+/*____________________________________________________________________________*/
+
+/**
  * Adds a callback to an event.
  *
  * This is a generic native intended to be used by modules that create events.
