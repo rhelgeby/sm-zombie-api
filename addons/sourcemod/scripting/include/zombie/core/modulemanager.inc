@@ -211,6 +211,31 @@ native ZMModule:ZM_GetModuleByPlugin(Handle:plugin);
 /*____________________________________________________________________________*/
 
 /**
+ * Looks up a module by the specified plugin handle value. If not found, it
+ * fails with a native error.
+ *
+ * This is a utility function for validating that a plugin has a module
+ * registered to it.
+ *
+ * @param plugin        Handle to plugin representing a module.
+ *
+ * @return              Module ID.
+ * @error               No module registered to plugin.
+ */
+stock ZMModule:ZM_GetModuleByPluginOrFail(Handle:plugin)
+{
+    new ZMModule:module = ZM_GetModuleByPlugin(plugin);
+    if (!ZM_IsValidModule(module))
+    {
+        ThrowNativeError(SP_ERROR_ABORTED, "No module is registered to this plugin.");
+    }
+    
+    return module;
+}
+
+/*____________________________________________________________________________*/
+
+/**
  * Gets the plugin that created the specified module.
  *
  * @param module        Module to look up.
