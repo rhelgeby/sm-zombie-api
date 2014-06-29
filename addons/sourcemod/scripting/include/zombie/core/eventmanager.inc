@@ -267,3 +267,21 @@ native ZMEvent:ZM_HookEventsCreate(ZM_OnEventsCreate:callback);
  *                      the module.
  */
 native ZMEvent:ZM_HookEventsCreated(ZM_OnEventsCreated:callback);
+
+/*____________________________________________________________________________*/
+
+/**
+ * Throws an error if the specified event is invalid.
+ *
+ * @param event         Event to validate.
+ *
+ * @noreturn
+ * @error               Invalid event.
+ */
+stock AssertIsValidEvent(ZMEvent:event)
+{
+    if (!ZM_IsValidEvent(event))
+    {
+        ThrowNativeError(SP_ERROR_ABORTED, "Invalid event: %x", event);
+    }
+}
