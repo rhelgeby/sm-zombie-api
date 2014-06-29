@@ -378,3 +378,21 @@ native ZMEvent:ZM_HookFeatureAdded(ZM_OnFeatureAdded:callback);
  *                      is not initialized.
  */
 native ZMEvent:ZM_HookFeatureRemove(ZM_OnFeatureRemove:callback);
+
+/*____________________________________________________________________________*/
+
+/**
+ * Throws an error if the specified module is invalid.
+ *
+ * @param module        Module to validate.
+ *
+ * @noreturn
+ * @error               Invalid module.
+ */
+stock AssertIsValidZMModule(ZMModule:module)
+{
+    if (!ZM_IsValidModule(module))
+    {
+        ThrowNativeError(SP_ERROR_ABORTED, "Invalid module: %x", module);
+    }
+}
