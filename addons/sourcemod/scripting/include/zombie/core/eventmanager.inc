@@ -297,8 +297,8 @@ native ZM_FireEvent(&any:result = 0);
  * Cancels a call to an event.
  *
  * @noreturn
- * @error               Caller is not a module, or called before an event is
- *                      started.
+ * @error               Caller is not a module, not the event owner, or called
+ *                      before an event is started.
  */
 native ZM_CancelEvent();
 
