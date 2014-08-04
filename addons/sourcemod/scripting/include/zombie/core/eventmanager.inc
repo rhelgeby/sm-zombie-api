@@ -173,7 +173,8 @@ functag public ZM_OnEventsCreated();
  *                      ZM_DeleteEvent will close this handle by default.
  *
  * @return              Event ID.
- * @error               - Caller is not a module
+ * @error               - Event manager is not ready
+ *                      - Caller is not a module
  *                      - Blank event name
  *                      - Event name already in use
  */
