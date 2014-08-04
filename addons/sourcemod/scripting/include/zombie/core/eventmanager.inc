@@ -411,7 +411,7 @@ native ZMEvent:ZM_HookEventsCreated(ZM_OnEventsCreated:callback);
  * @return              True if valid, false otherwise.
  * @error               Invalid event.
  */
-stock bool:AssertIsValidEvent(ZMEvent:event)
+stock bool:AssertIsValidZMEvent(ZMEvent:event)
 {
     if (!ZM_IsValidEvent(event))
     {
