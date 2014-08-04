@@ -410,7 +410,7 @@ stock bool:AssertIsValidZMModule(ZMModule:module)
  * @return              True if valid, false otherwise.
  * @error               Invalid module.
  */
-bool:AssertPluginHasZMModule(ZMModule:module)
+stock bool:AssertPluginHasZMModule(ZMModule:module)
 {
     if (!ZM_IsValidModule(module))
     {
