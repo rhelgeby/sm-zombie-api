@@ -386,7 +386,7 @@ native ZMEvent:ZM_HookFeatureRemove(ZM_OnFeatureRemove:callback);
  *
  * @param module        Module to validate.
  *
- * @noreturn
+ * @return              True if valid, false otherwise.
  * @error               Invalid module.
  */
 stock bool:AssertIsValidZMModule(ZMModule:module)

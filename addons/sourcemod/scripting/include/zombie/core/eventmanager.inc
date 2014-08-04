@@ -357,13 +357,16 @@ native ZMEvent:ZM_HookEventsCreated(ZM_OnEventsCreated:callback);
  *
  * @param event         Event to validate.
  *
- * @noreturn
+ * @return              True if valid, false otherwise.
  * @error               Invalid event.
  */
-stock AssertIsValidEvent(ZMEvent:event)
+stock bool:AssertIsValidEvent(ZMEvent:event)
 {
     if (!ZM_IsValidEvent(event))
     {
         ThrowNativeError(SP_ERROR_ABORTED, "Invalid event: %x", event);
+        return false;
     }
+    
+    return true;
 }
