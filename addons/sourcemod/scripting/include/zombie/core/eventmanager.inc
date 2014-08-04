@@ -130,8 +130,21 @@ enum ZMEvent
 /*____________________________________________________________________________*/
 
 /**
- * @section Predefined bootstrap events created by the event manager.
+ * @section Callback definitions for predefined bootstrap events created by the
+ *          event manager.
  */
+
+/**
+ * Called when the event manager is ready.
+ */
+#define ZM_ON_EVENTMANAGER_READY "OnEventManagerReady"
+functag public ZM_OnEventManagerReady();
+
+/**
+ * Called when the event manager is being disabled (no longer ready).
+ */
+#define ZM_ON_EVENTMANAGER_DISABLE "OnEventManagerDisable"
+functag public ZM_OnEventManagerDisable();
 
 /**
  * Called when events are being created. Modules that create their own events
@@ -176,7 +189,8 @@ native ZMEvent:ZM_CreateEvent(const String:eventName[], Handle:forwardRef);
  *                      deleted (closing the handle). Default is true.
  *
  * @noreturn
- * @error               - Caller is not a module
+ * @error               - Event manager is not ready
+ *                      - Caller is not a module
  *                      - Caller is not the event owner
  *                      - Invalid event
  */
@@ -190,7 +204,8 @@ native ZM_DeleteEvent(ZMEvent:event, bool:deleteForward = true);
  * @param event         Event to validate.
  *
  * @return              True if valid, otherwise false.
- * @error               Caller is not a module.
+ * @error               - Event manager is not ready
+ *                      - Caller is not a module
  */
 stock bool:ZM_IsValidEvent(ZMEvent:event)
 {
@@ -205,7 +220,8 @@ stock bool:ZM_IsValidEvent(ZMEvent:event)
  * @param eventName     Event name to look up.
  *
  * @return              Event ID if found, otherwise INVALID_ZM_EVENT.
- * @error               Caller is not a module.
+ * @error               - Event manager is not ready
+ *                      - Caller is not a module
  */
 native ZMEvent:ZM_GetEventByName(const String:eventName[]);
 
@@ -217,7 +233,8 @@ native ZMEvent:ZM_GetEventByName(const String:eventName[]);
  * @param eventName     Event name to look up.
  *
  * @return              True if event exists, false otherwise.
- * @error               Caller is not a module.
+ * @error               - Event manager is not ready
+ *                      - Caller is not a module
  */
 stock bool:ZM_EventExists(const String:eventName[])
 {
@@ -239,7 +256,8 @@ stock bool:ZM_EventExists(const String:eventName[])
  * @param callback      Function callback to add.
  *
  * @noreturn
- * @error               - Caller is not a module
+ * @error               - Event manager is not ready
+ *                      - Caller is not a module
  *                      - Invalid callback
  *                      - Invalid event
  *                      - An event call is in progress (started, but not fired)
@@ -256,7 +274,8 @@ native ZM_HookEvent(ZMModule:module, ZMEvent:event, Function:callback);
  * @param callback      Callback to unhook.
  *
  * @noreturn
- * @error               - Caller is not a module
+ * @error               - Event manager is not ready
+ *                      - Caller is not a module
  *                      - Invalid callback
  *                      - Invalid event
  *                      - An event call is in progress (started, but not fired)
@@ -273,7 +292,8 @@ native ZM_UnhookEvent(ZMEvent:event, Function:callback);
  * @param event         Event to start.
  *
  * @noreturn
- * @error               - Caller is not a module
+ * @error               - Event manager is not ready
+ *                      - Caller is not a module
  *                      - Caller is not the event owner
  *                      - Invalid event
  *                      - An event call is in progress (started, but not fired)
@@ -291,7 +311,8 @@ native ZM_StartEvent(ZMEvent:event);
  * @param module        Target module to fire event in.
  *
  * @noreturn
- * @error               - Caller is not a module
+ * @error               - Event manager is not ready
+ *                      - Caller is not a module
  *                      - Caller is not the event owner
  *                      - Invalid event
  *                      - An event call is in progress (started, but not fired)
@@ -307,7 +328,8 @@ native ZM_StartSingleEvent(ZMEvent:event, ZMModule:module)
  *
  * @return              SP_ERROR_NONE on success, any other integer on failure.
  *                      See SP_ERROR_* constants.
- * @error               - Caller is not a module
+ * @error               - Event manager is not ready
+ *                      - Caller is not a module
  *                      - Caller is not the event owner
  */
 native ZM_FireEvent(&any:result = 0);
@@ -318,11 +340,38 @@ native ZM_FireEvent(&any:result = 0);
  * Cancels a call to an event.
  *
  * @noreturn
- * @error               - Caller is not a module
+ * @error               - Event manager is not ready
+ *                      - Caller is not a module
  *                      - Caller is not the event owner
  *                      - Called before an event is started
  */
 native ZM_CancelEvent();
+
+/*____________________________________________________________________________*/
+
+/**
+ * Registers an event hook for the OnEventManagerReady event.
+ *
+ * @param callback      Function to call when event is fired.
+ *
+ * @return              Event ID.
+ *                      - Caller is not a module
+ *                      - Event is already hooked by the module
+ */
+native ZMEvent:ZM_HookEventManagerReady(ZM_OnEventManagerReady:callback);
+
+/*____________________________________________________________________________*/
+
+/**
+ * Registers an event hook for the OnEventManagerDisable event.
+ *
+ * @param callback      Function to call when event is fired.
+ *
+ * @return              Event ID.
+ *                      - Caller is not a module
+ *                      - Event is already hooked by the module
+ */
+native ZMEvent:ZM_HookEventManagerDisable(ZM_OnEventManagerDisable:callback);
 
 /*____________________________________________________________________________*/
 
@@ -332,7 +381,8 @@ native ZM_CancelEvent();
  * @param callback      Function to call when event is fired.
  *
  * @return              Event ID.
- * @error               - Caller is not a module
+ * @error               - Event manager is not ready
+ *                      - Caller is not a module
  *                      - Event is already hooked by the module
  */
 native ZMEvent:ZM_HookEventsCreate(ZM_OnEventsCreate:callback);
@@ -345,7 +395,8 @@ native ZMEvent:ZM_HookEventsCreate(ZM_OnEventsCreate:callback);
  * @param callback      Function to call when event is fired.
  *
  * @return              Event ID.
- * @error               - Caller is not a module
+ * @error               - Event manager is not ready
+ *                      - Caller is not a module
  *                      - Event is already hooked by the module
  */
 native ZMEvent:ZM_HookEventsCreated(ZM_OnEventsCreated:callback);
