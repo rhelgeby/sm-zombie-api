@@ -361,7 +361,7 @@ native ZM_CancelEvent();
  * @param callback      Function to call when event is fired.
  *
  * @return              Event ID.
- *                      - Caller is not a module
+ * @error               - Caller is not a module
  *                      - Event is already hooked by the module
  */
 native ZMEvent:ZM_HookEventManagerReady(ZM_OnEventManagerReady:callback);
@@ -374,7 +374,7 @@ native ZMEvent:ZM_HookEventManagerReady(ZM_OnEventManagerReady:callback);
  * @param callback      Function to call when event is fired.
  *
  * @return              Event ID.
- *                      - Caller is not a module
+ * @error               - Caller is not a module
  *                      - Event is already hooked by the module
  */
 native ZMEvent:ZM_HookEventManagerDisable(ZM_OnEventManagerDisable:callback);
