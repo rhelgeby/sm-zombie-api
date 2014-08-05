@@ -117,6 +117,11 @@ each plugin.
  */
 #define LIBRARY_ZM_EVENT_MANAGER "zm_event_manager"
 
+/**
+ * Predefined module name for the event manager.
+ */
+#define MODULE_ZM_EVENT_MANAGER "zm_event_manager"
+
 /*____________________________________________________________________________*/
 
 /**
