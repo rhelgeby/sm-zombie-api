@@ -24,6 +24,9 @@
  * ============================================================================
  */
 
+#include <zombie/core/bootstrap/boot-modulemanager>
+#include <zombie/core/bootstrap/boot-eventmanager>
+
 /*
 
 USAGE
@@ -55,9 +58,6 @@ call them from:
 
 /*____________________________________________________________________________*/
 
-new bool:ZM_ModuleManagerLoaded = false;
-new bool:ZM_EventManagerLoaded = false;
-
 new bool:ZM_CoreDependenciesLoaded = false;
 
 /*____________________________________________________________________________*/
@@ -85,66 +85,79 @@ stock ZM_CheckLibraryStates()
 
 /*____________________________________________________________________________*/
 
-stock APLRes:ZM_BootMgr_AskPluginLoad2(Handle:myself, bool:late, String:error[], err_max)
+stock APLRes:ZM_BootCore_AskPluginLoad2(Handle:myself, bool:late, String:error[], err_max)
 {
-    ZM_SetModuleManagerOptional();
-    ZM_SetEventManagerOptional();
+    ZM_ModuleMgr_AskPluginLoad2(myself, late, error, err_max);
+    ZM_EventMgr_AskPluginLoad2(myself, late, error, err_max);
+    
     return APLRes_Success;
 }
 
 /*____________________________________________________________________________*/
 
-stock ZM_ModuleMgr_OnAllPluginsLoaded()
+stock ZM_BootCore_OnAllPluginsLoaded()
 {
-    ZM_ModuleManagerLoaded = LibraryExists(LIBRARY_ZM_MODULE_MANAGER);
-    ZM_EventManagerLoaded = LibraryExists(LIBRARY_ZM_MODULE_MANAGER);
+    ZM_ModuleMgr_OnAllPluginsLoaded();
+    ZM_EventMgr_OnAllPluginsLoaded();
     
     ZM_CheckLibraryStates();
 }
 
 /*____________________________________________________________________________*/
 
-stock ZM_ModuleMgr_OnPluginEnd()
+stock ZM_BootCore_OnPluginEnd()
 {
-    ZM_ModuleManagerLoaded = false;
-    ZM_EventManagerLoaded = false;
-    
+    ZM_ModuleMgr_OnPluginEnd();
+    ZM_EventMgr_OnPluginEnd();
+}
+
+/*____________________________________________________________________________*/
+
+stock ZM_BootCore_OnLibraryAdded(const String:name[])
+{
+    ZM_ModuleMgr_OnLibraryAdded(name);
+    ZM_EventMgr_OnLibraryAdded(name);
+}
+
+/*____________________________________________________________________________*/
+
+stock ZM_BootCore_OnLibraryRemoved(const String:name[])
+{
+    ZM_ModuleMgr_OnLibraryRemoved(name);
+    ZM_EventMgr_OnLibraryRemoved(name);
+}
+
+/*____________________________________________________________________________*/
+
+ZM_OnModuleManagerAdded()
+{
     ZM_CheckLibraryStates();
 }
 
 /*____________________________________________________________________________*/
 
-stock ZM_ModuleMgr_OnLibraryAdded(const String:name[])
+ZM_OnModuleManagerRemoved()
 {
-    ZM_UpdateLibraryState(name, true);
     ZM_CheckLibraryStates();
 }
 
 /*____________________________________________________________________________*/
 
-stock ZM_ModuleMgr_OnLibraryRemoved(const String:name[])
+ZM_OnEventManagerAdded()
 {
-    ZM_UpdateLibraryState(name, false);
     ZM_CheckLibraryStates();
 }
 
 /*____________________________________________________________________________*/
 
-stock ZM_UpdateLibraryState(const String:libraryName[], bool:loaded)
+ZM_OnEventManagerRemoved()
 {
-    if (StrEqual(name, LIBRARY_ZM_MODULE_MANAGER))
-    {
-        ZM_ModuleManagerLoaded = loaded;
-    }
-    else if (StrEqual(name, LIBRARY_ZM_EVENT_MANAGER))
-    {
-        ZM_EventManagerLoaded = loaded;
-    }
+    ZM_CheckLibraryStates();
 }
 
 /*____________________________________________________________________________*/
 
 stock ZM_IsCoreDependenciesLoaded()
 {
-    return ZM_ModuleManagerLoaded && ZM_EventManagerLoaded;
+    return ZM_IsModuleManagerLoaded() && ZM_IsEventManagerLoaded();
 }
