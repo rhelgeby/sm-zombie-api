@@ -67,7 +67,7 @@ stock ZM_CheckLibraryStates()
     // Check previous state to prevent double events.
     new bool:loadedLastTime = ZM_CoreDependenciesLoaded;
     
-    if (ZM_IsCoreDependenciesLoaded && !loadedLastTime)
+    if (ZM_IsCoreDependenciesLoaded() && !loadedLastTime)
     {
         LogMessage("Core modules available.");
         ZM_CoreDependenciesLoaded = true;
@@ -75,7 +75,7 @@ stock ZM_CheckLibraryStates()
         // Defined in module.
         ZM_OnCoreLoaded();
     }
-    else if (loadedLastTime && !ZM_IsCoreDependenciesLoaded)
+    else if (loadedLastTime && !ZM_IsCoreDependenciesLoaded())
     {
         LogMessage("Core modules unavailable.");
         ZM_CoreDependenciesLoaded = false;
@@ -101,8 +101,6 @@ stock ZM_BootCore_OnAllPluginsLoaded()
 {
     ZM_ModuleMgr_OnAllPluginsLoaded();
     ZM_EventMgr_OnAllPluginsLoaded();
-    
-    ZM_CheckLibraryStates();
 }
 
 /*____________________________________________________________________________*/
@@ -159,7 +157,7 @@ ZM_OnEventManagerRemoved()
 
 /*____________________________________________________________________________*/
 
-stock ZM_IsCoreDependenciesLoaded()
+stock bool:ZM_IsCoreDependenciesLoaded()
 {
     return ZM_IsModuleManagerLoaded() && ZM_IsEventManagerLoaded();
 }
