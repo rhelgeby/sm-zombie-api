@@ -70,6 +70,7 @@ stock ZM_CheckLibraryStates()
     if (ZM_IsCoreDependenciesLoaded && !loadedLastTime)
     {
         LogMessage("Core modules available.");
+        ZM_CoreDependenciesLoaded = true;
         
         // Defined in module.
         ZM_OnCoreLoaded();
@@ -77,6 +78,7 @@ stock ZM_CheckLibraryStates()
     else if (loadedLastTime && !ZM_IsCoreDependenciesLoaded)
     {
         LogMessage("Core modules unavailable.");
+        ZM_CoreDependenciesLoaded = false;
         
         // Defined in module.
         ZM_OnCoreUnloaded();
