@@ -33,9 +33,9 @@ load and unload dynamically.
 
 You need to create this function in your plugin:
 
-    ZM_RegisterDependencies()
+    ZM_OnDependencyManagerReady()
 
-Inside ZM_RegisterDependencies, do this:
+Inside ZM_OnDependencyManagerReady, do this:
 
     - Set up your callbacks using ZM_SetDependencyCallbacks. Use these callbacks
       as enable/disable functions for your plugin.
@@ -56,6 +56,16 @@ You don't have to do anything else than forwarding the call.
 Note: The bootstrapper doesn't use OnPluginStart, but OnAllPluginsLoaded. So you
       can use OnPluginStart to initialize your plugin as usual (at least parts
       that doesn't require the dependencies to be loaded). 
+
+
+USAGE AS A LIBRARY
+
+Use the bootstrapper as described above, but you don't have to declare
+dependencies if you doesn't have any. In addition to that, you need to register
+your library.
+
+    - In ZM_OnDependencyManagerReady, add yourself to the dependency manager
+      using ZM_AddLibrary.
 
 */
 
@@ -85,9 +95,13 @@ stock ZM_DepMgr_OnAllPluginsLoaded()
 
 stock ZM_DepMgr_OnPluginEnd()
 {
-    // Clear this plugin's dependencies to prevent memory leak in the dependency
-    // manager.
-    ZM_RemoveDependencies();
+    // Clear this plugin's dependencies and libraries to prevent a memory leak
+    // in the dependency manager.
+    if (ZM_IsDependencyManagerLoaded())
+    {
+        ZM_RemoveDependencies();
+        ZM_RemoveLibraries();
+    }
 }
 
 /*____________________________________________________________________________*/
@@ -124,7 +138,7 @@ stock ZM_DepMgr_OnDepManagerAdded()
     LogMessage("Dependency manager available.");
 
     // This callback is implemented by the client.
-    ZM_RegisterDependencies();
+    ZM_OnDependencyManagerReady();
 }
 
 /*____________________________________________________________________________*/
@@ -140,8 +154,9 @@ stock ZM_DepMgr_OnDepManagerRemoved()
     ZM_DependencyManagerLoaded = false;
     LogMessage("Dependency manager removed.");
     
-    // Note: No need to call ZM_RemoveDependencies here. The dependency manager
-    //       is unloading and will clean all the allocated resources itself.
+    // Note: No need to cleanup dependencies and libraries here. The dependency
+    //       manager is unloading and will clean all the allocated resources
+    //       itself.
 }
 
 /*____________________________________________________________________________*/

@@ -149,6 +149,17 @@ native ZM_RemoveLibrary(const String:libraryName[]);
 
 /*____________________________________________________________________________*/
 
+/**
+ * Removes all libraries registered by the calling plugin and triggers the
+ * unavailable event if any clients depends on them.
+ *
+ * If the caller has no libraries, it does nothing.
+ *
+ * @noreturn
+ */
+native ZM_RemoveLibraries();
+
+/*____________________________________________________________________________*/
 
 /**
  * Returns whether the specified library has been added.
