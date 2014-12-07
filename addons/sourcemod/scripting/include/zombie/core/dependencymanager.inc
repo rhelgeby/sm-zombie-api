@@ -35,7 +35,7 @@
  * Predefined module manager library name to be used with OnLibraryAdded,
  * OnLibraryRemoved, and LibraryExists.
  */
-#define LIBRARY_ZM_MODULE_MANAGER "zm_dependency_manager"
+#define LIBRARY_ZM_DEPENDENCY_MANAGER "zm_dependency_manager"
 
 /*____________________________________________________________________________*/
 
